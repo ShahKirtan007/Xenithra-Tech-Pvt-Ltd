@@ -20,7 +20,7 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
-    "react-devtools": "^1.0.5"
+    "react-devtools": "^7.0.1"
   },
   "optionalDependencies": {
     "bcryptjs": "^2.4.3",
@@ -46,6 +46,6 @@
     "prettier": "^3.7.4",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
-    "vite": "^7.2.6"
+"vite": "^5.4.11"
   }
 }
