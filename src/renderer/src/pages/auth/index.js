@@ -1,8 +1,3 @@
-/**
- * Auth Pages Index
- * Export all authentication page components
- */
-
 export { default as OTP } from './OTP'
 export { default as Login } from './Login'
 export { default as Signup } from './Signup'
