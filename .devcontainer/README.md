@@ -1,4 +1,4 @@
-# Dev Container Setup
+﻿# Dev Container Setup
 
 This dev container provides a complete development environment for the Node.js Compiler project.
 

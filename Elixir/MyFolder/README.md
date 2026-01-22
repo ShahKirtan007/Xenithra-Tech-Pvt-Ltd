@@ -1,4 +1,4 @@
-# Elixir Integration for Human Compiler 2026
+﻿# Elixir Integration for Human Compiler 2026
 
 This directory contains Elixir code demonstrating integration with the Human Compiler platform.
 

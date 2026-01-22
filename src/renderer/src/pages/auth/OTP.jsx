@@ -267,8 +267,3 @@ const OTP = ({ purpose = 'signup_verification' }) => {
 }
 
 export default OTP
-
-// Render the app
-const container = document.getElementById('root')
-const root = createRoot(container)
-root.render(<OTP />)

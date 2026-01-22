@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # Start MongoDB in background
 echo "Starting MongoDB..."

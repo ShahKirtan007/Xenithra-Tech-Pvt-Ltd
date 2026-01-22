@@ -1,4 +1,4 @@
-schedules:
+﻿schedules:
   - cron: '0 1 * * 0'
     displayName: Weekly ACR Cleanup
     always: true

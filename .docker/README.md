@@ -1,4 +1,4 @@
-# Docker Setup for Human Error Application
+﻿# Docker Setup for Human Error Application
 
 This directory contains Docker configuration files to containerize the Human Error Node.js application.
 

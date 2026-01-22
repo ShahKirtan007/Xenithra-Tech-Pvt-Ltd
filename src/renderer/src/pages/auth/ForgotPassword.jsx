@@ -180,8 +180,3 @@ const ForgotPassword = () => {
 }
 
 export default ForgotPassword
-
-// Render the app
-const container = document.getElementById('root')
-const root = createRoot(container)
-root.render(<ForgotPassword />)

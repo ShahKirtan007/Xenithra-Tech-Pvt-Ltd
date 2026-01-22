@@ -1,19 +1,27 @@
-import { useState, useRef, useEffect, useCallback, Fragment } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { createRoot } from 'react-dom/client'
 import './css/NovaGlass.css'
 
 const NovaGlassCodeStudio = () => {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [language, setLanguage] = useState('C (GCC)')
   const [tabName, setTabName] = useState('main.c')
   const [statusText, setStatusText] = useState('autosave • synced to cloud')
   const [terminalLines, setTerminalLines] = useState([
-    <Fragment key="initial">
-      <span className="prompt">nova@glass</span>:<span className="muted">~</span>$ run main.c
-    </Fragment>,
+    <span key="prompt1" className="prompt">
+      nova@glass
+    </span>,
+    <span key="tilde" className="muted">
+      ~
+    </span>,
+    <span key="run-cmd">$ run main.c</span>,
     <span key="waiting" className="muted">
       Waiting for first run...
     </span>
   ])
-  const [code, setCode] = useState(`/******************************************************************************
+  const [sideBySide, setSideBySide] = useState(false)
+  const [code] =
+    useState(`/******************************************************************************
  NovaGlass Code Studio.
  Futuristic glassmorphism IDE with neon gradients.
  Type here, press enter, and enjoy the glow.
@@ -30,7 +38,6 @@ int main(void)
   const [cliArgs, setCliArgs] = useState('')
   const [showLangDropdown, setShowLangDropdown] = useState(false)
   const codeAreaRef = useRef(null)
-  const lineNumbersRef = useRef(null)
   const terminalBodyRef = useRef(null)
 
   const languages = [
@@ -49,9 +56,6 @@ int main(void)
   }, [code])
 
   const handleCodeChange = useCallback(() => {
-    if (codeAreaRef.current) {
-      setCode(codeAreaRef.current.innerText)
-    }
     setStatusText('editing • unsaved changes...')
     const saveTimeout = setTimeout(() => {
       setStatusText('autosave • synced to cloud')
@@ -82,9 +86,13 @@ int main(void)
     }
 
     appendTerminalLine([
-      <Fragment key="prompt-run">
-        <span className="prompt">nova@glass</span>:<span className="muted">~</span>$ run '{language}' {cliArgs || ''}
-      </Fragment>,
+      <React.Fragment key="prompt-run">
+        <span className="prompt">nova@glass</span>
+        <span className="muted">~</span>
+        <span>
+          $ run {`${language}`} {cliArgs || ''}
+        </span>
+      </React.Fragment>,
       <span key="contacting" className="muted">
         contacting demo API...
       </span>
@@ -94,25 +102,22 @@ int main(void)
       const res = await fetch('https://httpbin.org/post', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lang: language, args: cliArgs, code })
+        body: JSON.stringify({ language, args: cliArgs, code })
       })
       const json = await res.json()
 
       appendTerminalLine([
-        <Fragment key="stdout-status">
+        <React.Fragment key="stdout">
           <span className="prompt">stdout</span>: response status {res.status}
-        </Fragment>,
-        <Fragment key="stdout-bytes">
-          <span className="prompt">stdout</span>: bytes sent {JSON.stringify(json.json).length}
-        </Fragment>,
-        <Fragment key="stdout-url">
-          <span className="prompt">stdout</span>: url → {json.url}
-        </Fragment>
+        </React.Fragment>,
+        <span key="output" className="muted">
+          {JSON.stringify(json, null, 2)}
+        </span>
       ])
-    } catch (err) {
+    } catch {
       appendTerminalLine([
         <span key="error" className="error">
-          error: {err.message}
+          Error: Failed to execute code
         </span>
       ])
     }
@@ -140,7 +145,7 @@ int main(void)
       <div className="border-neon"></div>
       <div className="shell">
         {/* Sidebar */}
-        <div className="sidebar">
+        <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
           <div className="logo">
             <div className="logo-box">⚡</div>
             NovaGlass
@@ -163,9 +168,17 @@ int main(void)
         <div className="main">
           {/* Topbar */}
           <div className="topbar">
+            <button
+              id="sidebarToggle"
+              title="Collapse sidebar"
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            >
+              {sidebarCollapsed ? '☰' : '✕'}
+            </button>
+
             <div className="topbar-title">NOVA GLASS CODE STUDIO</div>
             <button className="btn-run" id="runBtn" onClick={handleRun}>
-              ▶ Run
+              ? Run
             </button>
             <button>?? Debug</button>
             <button>� Stop</button>
@@ -205,10 +218,24 @@ int main(void)
             <div style={{ fontSize: '11px', opacity: 0.7 }} id="statusText">
               {statusText}
             </div>
+            <div
+              style={{
+                marginLeft: 'auto',
+                fontSize: '11px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px'
+              }}
+            >
+              <span>Terminal layout</span>
+              <button id="termLayoutToggle" onClick={() => setSideBySide(!sideBySide)}>
+                {sideBySide ? 'side' : 'bottom'}
+              </button>
+            </div>
           </div>
 
           {/* Editor + terminal */}
-          <div className="editor-wrapper" id="editorWrapper">
+          <div className={`editor-wrapper ${sideBySide ? 'side-by-side' : ''}`} id="editorWrapper">
             <div className="editor" id="editor">
               <div className="line-numbers" id="lineNumbers" ref={codeAreaRef} />
               <div

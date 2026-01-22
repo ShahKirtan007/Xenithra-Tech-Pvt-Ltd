@@ -1,4 +1,4 @@
-# Additional Elixir compiler utilities for Human Compiler 2026
+﻿# Additional Elixir compiler utilities for Human Compiler 2026
 
 defmodule CompilerUtils do
   @moduledoc """

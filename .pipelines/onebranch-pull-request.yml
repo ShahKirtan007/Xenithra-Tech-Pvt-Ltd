@@ -1,4 +1,4 @@
-# OneBranch pipeline for pull requests
+﻿# OneBranch pipeline for pull requests
 # This pipeline runs on pull requests to validate code changes
 
 trigger:

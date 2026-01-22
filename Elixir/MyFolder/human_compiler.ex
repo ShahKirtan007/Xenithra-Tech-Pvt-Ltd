@@ -1,4 +1,4 @@
-# Enhanced Elixir code for Human Compiler 2026
+﻿# Enhanced Elixir code for Human Compiler 2026
 
 defmodule HumanCompiler do
   @moduledoc """

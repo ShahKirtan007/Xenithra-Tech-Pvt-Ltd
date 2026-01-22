@@ -1,4 +1,4 @@
-// MongoDB initialization script
+﻿// MongoDB initialization script
 // This will run when the MongoDB container starts for the first time
 
 db = db.getSiblingDB('human-error')

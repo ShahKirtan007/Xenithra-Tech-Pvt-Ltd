@@ -1,4 +1,4 @@
-# Use Node.js 18 as base image
+﻿# Use Node.js 18 as base image
 FROM mcr.microsoft.com/devcontainers/base:jammy
 
 # Install Node.js 18

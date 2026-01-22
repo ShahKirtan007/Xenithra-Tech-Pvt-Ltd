@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Human Error Dev Container",
   "dockerComposeFile": ["docker-compose.yml"],
   "service": "app",

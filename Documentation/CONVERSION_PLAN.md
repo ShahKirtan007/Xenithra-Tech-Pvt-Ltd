@@ -1,4 +1,4 @@
-# Project Conversion Plan: HTML to JSX
+﻿# Project Conversion Plan: HTML to JSX
 
 ## Overview
 
@@ -6,44 +6,44 @@ Convert all HTML authentication pages to React JSX components with a scalable co
 
 ## Files to Convert
 
-1. `otp.html` → `OTP.jsx` - OTP verification page
-2. `login_1.html` → `Login.jsx` - Login page
-3. `Signup.html` → `Signup.jsx` - Signup page
-4. `forgotPassword.html` → `ForgotPassword.jsx` - Forgot password page
-5. `resetPassword.html` → `ResetPassword.jsx` - Reset password page
+1. `otp.html` â†’ `OTP.jsx` - OTP verification page
+2. `login_1.html` â†’ `Login.jsx` - Login page
+3. `Signup.html` â†’ `Signup.jsx` - Signup page
+4. `forgotPassword.html` â†’ `ForgotPassword.jsx` - Forgot password page
+5. `resetPassword.html` â†’ `ResetPassword.jsx` - Reset password page
 
 ## Component Architecture
 
 ```
 src/
-├── components/
-│   ├── ui/
-│   │   ├── Button.jsx          # Reusable button component
-│   │   ├── Input.jsx           # Reusable input component
-│   │   ├── Form.jsx            # Reusable form wrapper
-│   │   └── Card.jsx            # Reusable card container
-│   └── auth/
-│       ├── AuthLayout.jsx      # Auth pages layout wrapper
-│       ├── PasswordStrength.jsx # Password strength indicator
-│       └── OTPDigitInput.jsx    # OTP digit input component
-├── hooks/
-│   ├── useAuth.js              # Authentication hooks
-│   ├── useForm.js              # Form handling hooks
-│   └── usePasswordValidation.js # Password validation logic
-├── utils/
-│   ├── validators.js           # Form validation utilities
-│   └── api.js                  # API call utilities
-├── pages/
-│   ├── auth/
-│   │   ├── Login.jsx
-│   │   ├── Signup.jsx
-│   │   ├── OTP.jsx
-│   │   ├── ForgotPassword.jsx
-│   │   └── ResetPassword.jsx
-│   └── index.js                # Export all auth pages
-└── styles/
-    ├── auth.css                # Shared auth styles
-    └── variables.css           # CSS variables
+â”œâ”€â”€ components/
+â”‚   â”œâ”€â”€ ui/
+â”‚   â”‚   â”œâ”€â”€ Button.jsx          # Reusable button component
+â”‚   â”‚   â”œâ”€â”€ Input.jsx           # Reusable input component
+â”‚   â”‚   â”œâ”€â”€ Form.jsx            # Reusable form wrapper
+â”‚   â”‚   â””â”€â”€ Card.jsx            # Reusable card container
+â”‚   â””â”€â”€ auth/
+â”‚       â”œâ”€â”€ AuthLayout.jsx      # Auth pages layout wrapper
+â”‚       â”œâ”€â”€ PasswordStrength.jsx # Password strength indicator
+â”‚       â””â”€â”€ OTPDigitInput.jsx    # OTP digit input component
+â”œâ”€â”€ hooks/
+â”‚   â”œâ”€â”€ useAuth.js              # Authentication hooks
+â”‚   â”œâ”€â”€ useForm.js              # Form handling hooks
+â”‚   â””â”€â”€ usePasswordValidation.js # Password validation logic
+â”œâ”€â”€ utils/
+â”‚   â”œâ”€â”€ validators.js           # Form validation utilities
+â”‚   â””â”€â”€ api.js                  # API call utilities
+â”œâ”€â”€ pages/
+â”‚   â”œâ”€â”€ auth/
+â”‚   â”‚   â”œâ”€â”€ Login.jsx
+â”‚   â”‚   â”œâ”€â”€ Signup.jsx
+â”‚   â”‚   â”œâ”€â”€ OTP.jsx
+â”‚   â”‚   â”œâ”€â”€ ForgotPassword.jsx
+â”‚   â”‚   â””â”€â”€ ResetPassword.jsx
+â”‚   â””â”€â”€ index.js                # Export all auth pages
+â””â”€â”€ styles/
+    â”œâ”€â”€ auth.css                # Shared auth styles
+    â””â”€â”€ variables.css           # CSS variables
 ```
 
 ## Implementation Steps
@@ -80,14 +80,14 @@ src/
 
 ## Key Features to Preserve
 
-✅ All existing functionality
-✅ Bootstrap styling compatibility
-✅ API integrations
-✅ Form validation
-✅ Error handling
-✅ Loading states
-✅ Token storage (localStorage/cookies)
-✅ Page redirects
+âœ… All existing functionality
+âœ… Bootstrap styling compatibility
+âœ… API integrations
+âœ… Form validation
+âœ… Error handling
+âœ… Loading states
+âœ… Token storage (localStorage/cookies)
+âœ… Page redirects
 
 ## Success Criteria
 

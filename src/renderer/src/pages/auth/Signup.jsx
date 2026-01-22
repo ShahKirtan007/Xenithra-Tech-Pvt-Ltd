@@ -258,8 +258,3 @@ const Signup = () => {
 }
 
 export default Signup
-
-// Render the app
-const container = document.getElementById('root')
-const root = createRoot(container)
-root.render(<Signup />)
