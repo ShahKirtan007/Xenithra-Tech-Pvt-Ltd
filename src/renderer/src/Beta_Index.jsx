@@ -1,7 +1,15 @@
 import { useState, useRef, useEffect, useCallback, Fragment } from 'react'
 import './css/NovaGlass.css'
 
+// Import page components
+import Dashboard_User from './Dashboard_User.jsx'
+import Login from './Login.jsx'
+import Signup from './Signup.jsx'
+import Maintenance from './Maintenance.jsx'
+import NotFound from './NotFound.jsx'
+
 const NovaGlassCodeStudio = () => {
+  const [currentPage, setCurrentPage] = useState('playground') // Default to playground
   const [language, setLanguage] = useState('C (GCC)')
   const [tabName, setTabName] = useState('main.c')
   const [statusText, setStatusText] = useState('autosave • synced to cloud')
@@ -135,6 +143,110 @@ int main(void)
     }
   }
 
+  const handleNavigation = (page) => {
+    setCurrentPage(page.toLowerCase())
+  }
+
+  const renderCurrentPage = () => {
+    switch (currentPage) {
+      case 'dashboard':
+        return <Dashboard_User />
+      case 'login':
+        return <Login />
+      case 'signup':
+        return <Signup />
+      case 'maintenance':
+        return <Maintenance />
+      case 'projects':
+        return <div style={{ padding: '20px', color: '#e5f2ff' }}><h2>Projects</h2><p>Projects page coming soon...</p></div>
+      case 'snippets':
+        return <div style={{ padding: '20px', color: '#e5f2ff' }}><h2>Snippets</h2><p>Snippets page coming soon...</p></div>
+      case 'profile':
+        return <div style={{ padding: '20px', color: '#e5f2ff' }}><h2>Profile</h2><p>Profile page coming soon...</p></div>
+      case 'settings':
+        return <div style={{ padding: '20px', color: '#e5f2ff' }}><h2>Settings</h2><p>Settings page coming soon...</p></div>
+      case 'logout':
+        if (confirm('Are you sure you want to logout?')) {
+          // In a real app, this would clear session/token
+          alert('Logged out successfully!')
+          setCurrentPage('login')
+          return <Login />
+        } else {
+          setCurrentPage('playground')
+          return renderCurrentPage()
+        }
+      case 'playground':
+      default:
+        return (
+          <>
+            {/* Editor header */}
+            <div className="editor-header">
+              <div className="tab">{tabName}</div>
+              <div style={{ fontSize: '11px', opacity: 0.7 }} id="statusText">
+                {statusText}
+              </div>
+            </div>
+
+            {/* Editor + terminal */}
+            <div className="editor-wrapper" id="editorWrapper">
+              <div className="editor" id="editor">
+                <div className="line-numbers" id="lineNumbers" ref={codeAreaRef} />
+                <div
+                  className="code-area"
+                  id="codeArea"
+                  contentEditable
+                  spellCheck={false}
+                  onInput={handleCodeChange}
+                  onKeyDown={handleKeyDown}
+                  suppressContentEditableWarning
+                >
+                  {code}
+                </div>
+              </div>
+
+              <div className="terminal" id="terminal">
+                <div className="terminal-header">
+                  <div className="dot red"></div>
+                  <div className="dot yellow"></div>
+                  <div className="dot green"></div>
+                  <span>integrated terminal • demo API</span>
+                </div>
+                <div className="terminal-body" id="terminalBody" ref={terminalBodyRef}>
+                  {terminalLines.map((line, index) => (
+                    <div key={index} className="terminal-line">
+                      {line}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom */}
+            <div className="bottom">
+              <div>
+                <label>Command line arguments:</label>
+                <input
+                  type="text"
+                  id="cliArgs"
+                  placeholder="--help"
+                  value={cliArgs}
+                  onChange={(e) => setCliArgs(e.target.value)}
+                />
+              </div>
+              <div className="stdin-options">
+                Standard Input:
+                <label>
+                  <input type="radio" name="stdin" defaultChecked /> Interactive Console
+                </label>
+                <label>
+                  <input type="radio" name="stdin" /> Text
+                </label>
+              </div>
+            </div>
+          </>
+        )
+    }
+
   return (
     <div className="app">
       <div className="border-neon"></div>
@@ -147,16 +259,16 @@ int main(void)
           </div>
           <div className="subtitle">Frosted neon playground for modern C/C++ builds.</div>
           <div className="pill-label">Workspace</div>
-          <button>Dashboard</button>
-          <button>Projects</button>
-          <button>Snippets</button>
-          <button>Playground</button>
+          <button onClick={() => handleNavigation('Dashboard')}>Dashboard</button>
+          <button onClick={() => handleNavigation('Projects')}>Projects</button>
+          <button onClick={() => handleNavigation('Snippets')}>Snippets</button>
+          <button onClick={() => handleNavigation('Playground')}>Playground</button>
           <div className="pill-label" style={{ marginTop: '14px' }}>
             Account
           </div>
-          <button>Profile</button>
-          <button>Settings</button>
-          <button>Logout</button>
+          <button onClick={() => handleNavigation('Profile')}>Profile</button>
+          <button onClick={() => handleNavigation('Settings')}>Settings</button>
+          <button onClick={() => handleNavigation('Logout')}>Logout</button>
         </div>
 
         {/* Main */}
@@ -269,4 +381,4 @@ int main(void)
   )
 }
 
-export default NovaGlassCodeStudio
+export default NovaGlassCodeStudio()

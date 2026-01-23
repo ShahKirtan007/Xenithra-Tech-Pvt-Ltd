@@ -358,12 +358,12 @@ body {
   padding: 10px;
   font-family: 'Courier New', monospace;
   font-size: 14px;
-  line-height: 1.5;
+  /* line-height: 1.5; */
   color: var(--text-primary);
   background: transparent;
   border: none;
   outline: none;
-  white-space: pre-wrap;
+  /* white-space: pre-wrap; */
   word-wrap: break-word;
   overflow-y: auto;
 }

@@ -2,7 +2,13 @@ import { resolve } from 'path'
 import { defineConfig } from 'electron-vite'
 
 export default defineConfig({
-  main: {},
+  main: {
+    build: {
+      rollupOptions: {
+        external: ['express', 'path', 'cookie-parser', 'express-session', 'cors', 'dotenv']
+      }
+    }
+  },
   preload: {},
   renderer: {
     publicDir: 'Public',
