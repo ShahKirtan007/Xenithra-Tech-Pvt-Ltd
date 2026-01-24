@@ -10,6 +10,10 @@ router.use(express.json())
 
 // SignUP handler - aligned with backend routes
 router.get('/Signup', signUpController.SignUpToken)
+router.get('/Account/Signup', (req, res) => {
+  // Redirect to signup token generation
+  res.redirect('/Signup')
+})
 router.get('/Signup/:SignUpToken', signUpController.signUp)
 // router.post('/Signup', signUpController.postSignUp); // Disabled: frontend should POST directly to backend API
 router.post('/Signup/Verify/:SignUpToken')

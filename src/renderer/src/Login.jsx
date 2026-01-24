@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import '../css/login/util.css'
 import '../css/login/main.css'
 import '../css/glassy-login.css'
@@ -27,7 +28,7 @@ const Login = () => {
             token: data.data.accessToken
           })
         )
-        window.location.href = '/Account/Dashboard/user'
+        navigate('/dashboard')
       } else {
         alert(data.message || 'Login failed')
       }

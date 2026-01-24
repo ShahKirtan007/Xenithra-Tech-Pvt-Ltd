@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'boxicons/css/boxicons.min.css'
 import './classroom.css'
 
 const ClassroomPage = () => {
   const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
   const [currentUser, setCurrentUser] = useState({
     id: '',
     role: 'user',
@@ -94,7 +95,7 @@ const ClassroomPage = () => {
       const data = await res.json()
       if (res.ok && data.classroomId) {
         alert('Joined classroom! Redirecting...')
-        window.location.href = `/classroom?id=${data.classroomId}`
+        navigate(`/classroom?id=${data.classroomId}`)
       } else {
         alert(data.error || 'Failed to join classroom')
       }

@@ -1,18 +1,15 @@
 import { useState, useRef, useEffect, useCallback, Fragment } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './css/NovaGlass.css'
 
-// Import page components
-import Dashboard_User from './Dashboard_User.jsx'
-import Login from './Login.jsx'
-import Signup from './Signup.jsx'
-import Maintenance from './Maintenance.jsx'
-import NotFound from './NotFound.jsx'
-
 const NovaGlassCodeStudio = () => {
-  const [currentPage, setCurrentPage] = useState('playground') // Default to playground
+  const navigate = useNavigate()
   const [language, setLanguage] = useState('C (GCC)')
   const [tabName, setTabName] = useState('main.c')
   const [statusText, setStatusText] = useState('autosave • synced to cloud')
+  const [isLoggedIn, setIsLoggedIn] = useState(true) // Login status - temporarily set to true for testing
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true) // Sidebar toggle
+  const [userName, setUserName] = useState('John Doe') // Mock username
   const [terminalLines, setTerminalLines] = useState([
     <Fragment key="initial">
       <span className="prompt">nova@glass</span>:<span className="muted">~</span>$ run main.c
@@ -144,40 +141,175 @@ int main(void)
   }
 
   const handleNavigation = (page) => {
-    setCurrentPage(page.toLowerCase())
-  }
-
-  const renderCurrentPage = () => {
-    switch (currentPage) {
-      case 'dashboard':
-        return <Dashboard_User />
+    const lowerPage = page.toLowerCase()
+    switch (lowerPage) {
       case 'login':
-        return <Login />
+        navigate('/login')
+        break
       case 'signup':
-        return <Signup />
+        navigate('/signup')
+        break
+      case 'dashboard':
+        navigate('/dashboard')
+        break
       case 'maintenance':
-        return <Maintenance />
-      case 'projects':
-        return <div style={{ padding: '20px', color: '#e5f2ff' }}><h2>Projects</h2><p>Projects page coming soon...</p></div>
-      case 'snippets':
-        return <div style={{ padding: '20px', color: '#e5f2ff' }}><h2>Snippets</h2><p>Snippets page coming soon...</p></div>
-      case 'profile':
-        return <div style={{ padding: '20px', color: '#e5f2ff' }}><h2>Profile</h2><p>Profile page coming soon...</p></div>
-      case 'settings':
-        return <div style={{ padding: '20px', color: '#e5f2ff' }}><h2>Settings</h2><p>Settings page coming soon...</p></div>
+        navigate('/maintenance')
+        break
+      case 'classroom':
+        navigate('/classroom')
+        break
       case 'logout':
         if (confirm('Are you sure you want to logout?')) {
           // In a real app, this would clear session/token
           alert('Logged out successfully!')
-          setCurrentPage('login')
-          return <Login />
-        } else {
-          setCurrentPage('playground')
-          return renderCurrentPage()
+          setIsLoggedIn(false)
+          navigate('/login')
         }
-      case 'playground':
+        break
       default:
-        return (
+        // For pages like Projects, Snippets, Profile, Settings - could add routes later
+        alert(`${page} page coming soon!`)
+        break
+    }
+  }
+
+  return (
+    <>
+      {/* Menu Bar */}
+      <div className="menu-bar">
+        <div className="menu-item" onClick={() => alert('File menu: New, Open, Save, etc.')}>File</div>
+        <div className="menu-item" onClick={() => alert('Edit menu: Undo, Redo, Find, etc.')}>Edit</div>
+        <div className="menu-item" onClick={() => alert('Selection menu: Select All, Expand Selection, etc.')}>Selection</div>
+        <div className="menu-item" onClick={() => alert('View menu: Toggle Sidebar, Zoom, etc.')}>View</div>
+        <div className="menu-item" onClick={() => alert('Help menu: Documentation, About, etc.')}>Help</div>
+        <div className="menu-spacer"></div>
+        <div className="menu-panel">
+          {!isLoggedIn ? (
+            <>
+              <button className="btn-login" onClick={() => handleNavigation('Login')}>Login</button>
+              <button className="btn-signup" onClick={() => handleNavigation('Signup')}>Signup</button>
+            </>
+          ) : (
+            <div className="user-info">
+              <div className="user-logo">👤</div>
+              <span className="user-name">{userName}</span>
+            </div>
+          )}
+          <div className="account-circle" onClick={() => isLoggedIn ? handleNavigation('Profile') : handleNavigation('Login')}>
+            👤
+          </div>
+          <div className="lang-select">
+            <span>Language:</span>
+            <div className={`dropdown ${showLangDropdown ? 'open' : ''}`} id="langDropdown">
+              <button
+                className="dropdown-toggle"
+                type="button"
+                onClick={() => setShowLangDropdown(!showLangDropdown)}
+              >
+                <span id="langLabel">{language}</span>
+                <span className="arrow">▾</span>
+              </button>
+              <div className="dropdown-menu">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.value}
+                    data-lang={lang.value}
+                    onClick={() => handleLanguageChange(lang)}
+                  >
+                    {lang.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="app">
+        <div className="border-neon"></div>
+        <div className="shell">
+        {/* Sidebar */}
+        <div className={`sidebar ${!isSidebarOpen ? 'collapsed' : ''}`}>
+          <button
+            className="sidebar-toggle"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            title={isSidebarOpen ? 'Collapse Sidebar' : 'Expand Sidebar'}
+          >
+            {isSidebarOpen ? '◀' : '▶'}
+          </button>
+          <div className="logo">
+            <div className="logo-box">⚡</div>
+            {isSidebarOpen && 'NovaGlass'}
+          </div>
+          {isSidebarOpen && (
+            <>
+              <div className="subtitle">Frosted neon playground for modern C/C++ builds.</div>
+              <div className="pill-label">Workspace</div>
+              <button onClick={() => handleNavigation('Dashboard')}>Dashboard</button>
+              <button onClick={() => handleNavigation('Projects')}>Projects</button>
+              <button onClick={() => handleNavigation('Snippets')}>Snippets</button>
+              <button onClick={() => handleNavigation('Playground')}>Playground</button>
+            </>
+          )}
+          {isLoggedIn && (
+            <div className="user-section">
+              <div className="user-info">
+                <div className="user-logo">👤</div>
+                {isSidebarOpen && <span className="user-name">{userName}</span>}
+              </div>
+              {isSidebarOpen && (
+                <>
+                  <div className="pill-label" style={{ marginTop: '14px' }}>
+                    Account
+                  </div>
+                  <button onClick={() => handleNavigation('Profile')}>Profile</button>
+                  <button onClick={() => handleNavigation('Settings')}>Settings</button>
+                  <button onClick={() => handleNavigation('Logout')}>Logout</button>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Main */}
+        <div className="main">
+          {/* Topbar */}
+          <div className="topbar">
+            <div className="topbar-title">NOVA GLASS CODE STUDIO</div>
+            <button className="btn-run" id="runBtn" onClick={handleRun}>
+              ▶ Run
+            </button>
+            <button>?? Debug</button>
+            <button>� Stop</button>
+            <button>Share</button>
+            <button>Save</button>
+            <button>{'{}'} Format</button>
+
+            <div className="lang-select">
+              <span>Language:</span>
+              <div className={`dropdown ${showLangDropdown ? 'open' : ''}`} id="langDropdown">
+                <button
+                  className="dropdown-toggle"
+                  type="button"
+                  onClick={() => setShowLangDropdown(!showLangDropdown)}
+                >
+                  <span id="langLabel">{language}</span>
+                  <span className="arrow">▾</span>
+                </button>
+                <div className="dropdown-menu">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.value}
+                      data-lang={lang.value}
+                      onClick={() => handleLanguageChange(lang)}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
           <>
             {/* Editor header */}
             <div className="editor-header">
@@ -244,141 +376,11 @@ int main(void)
               </div>
             </div>
           </>
-        )
-    }
-
-  return (
-    <div className="app">
-      <div className="border-neon"></div>
-      <div className="shell">
-        {/* Sidebar */}
-        <div className="sidebar">
-          <div className="logo">
-            <div className="logo-box">⚡</div>
-            NovaGlass
-          </div>
-          <div className="subtitle">Frosted neon playground for modern C/C++ builds.</div>
-          <div className="pill-label">Workspace</div>
-          <button onClick={() => handleNavigation('Dashboard')}>Dashboard</button>
-          <button onClick={() => handleNavigation('Projects')}>Projects</button>
-          <button onClick={() => handleNavigation('Snippets')}>Snippets</button>
-          <button onClick={() => handleNavigation('Playground')}>Playground</button>
-          <div className="pill-label" style={{ marginTop: '14px' }}>
-            Account
-          </div>
-          <button onClick={() => handleNavigation('Profile')}>Profile</button>
-          <button onClick={() => handleNavigation('Settings')}>Settings</button>
-          <button onClick={() => handleNavigation('Logout')}>Logout</button>
-        </div>
-
-        {/* Main */}
-        <div className="main">
-          {/* Topbar */}
-          <div className="topbar">
-            <div className="topbar-title">NOVA GLASS CODE STUDIO</div>
-            <button className="btn-run" id="runBtn" onClick={handleRun}>
-              ▶ Run
-            </button>
-            <button>?? Debug</button>
-            <button>� Stop</button>
-            <button>Share</button>
-            <button>Save</button>
-            <button>{'{}'} Format</button>
-
-            <div className="lang-select">
-              <span>Language:</span>
-              <div className={`dropdown ${showLangDropdown ? 'open' : ''}`} id="langDropdown">
-                <button
-                  className="dropdown-toggle"
-                  type="button"
-                  onClick={() => setShowLangDropdown(!showLangDropdown)}
-                >
-                  <span id="langLabel">{language}</span>
-                  <span className="arrow">▾</span>
-                </button>
-                <div className="dropdown-menu">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.value}
-                      data-lang={lang.value}
-                      onClick={() => handleLanguageChange(lang)}
-                    >
-                      {lang.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Editor header */}
-          <div className="editor-header">
-            <div className="tab">{tabName}</div>
-            <div style={{ fontSize: '11px', opacity: 0.7 }} id="statusText">
-              {statusText}
-            </div>
-          </div>
-
-          {/* Editor + terminal */}
-          <div className="editor-wrapper" id="editorWrapper">
-            <div className="editor" id="editor">
-              <div className="line-numbers" id="lineNumbers" ref={codeAreaRef} />
-              <div
-                className="code-area"
-                id="codeArea"
-                contentEditable
-                spellCheck={false}
-                onInput={handleCodeChange}
-                onKeyDown={handleKeyDown}
-                suppressContentEditableWarning
-              >
-                {code}
-              </div>
-            </div>
-
-            <div className="terminal" id="terminal">
-              <div className="terminal-header">
-                <div className="dot red"></div>
-                <div className="dot yellow"></div>
-                <div className="dot green"></div>
-                <span>integrated terminal • demo API</span>
-              </div>
-              <div className="terminal-body" id="terminalBody" ref={terminalBodyRef}>
-                {terminalLines.map((line, index) => (
-                  <div key={index} className="terminal-line">
-                    {line}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom */}
-          <div className="bottom">
-            <div>
-              <label>Command line arguments:</label>
-              <input
-                type="text"
-                id="cliArgs"
-                placeholder="--help"
-                value={cliArgs}
-                onChange={(e) => setCliArgs(e.target.value)}
-              />
-            </div>
-            <div className="stdin-options">
-              Standard Input:
-              <label>
-                <input type="radio" name="stdin" defaultChecked /> Interactive Console
-              </label>
-              <label>
-                <input type="radio" name="stdin" /> Text
-              </label>
-            </div>
-          </div>
         </div>
       </div>
     </div>
-  )
+  </>
+)
 }
 
-export default NovaGlassCodeStudio()
+export default NovaGlassCodeStudio

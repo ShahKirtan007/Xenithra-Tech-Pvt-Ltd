@@ -12,12 +12,20 @@ app.use(express.json())
 app.use(cookieParser())
 // Enable CORS so renderer can call the API at http://localhost:PORT
 app.use(cors())
+
+// Enhanced session configuration for persistent login
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || 'novaglass_local_secret',
+    secret: process.env.SESSION_SECRET || 'novaglass_local_secret_key_2024',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }
+    cookie: {
+      secure: false, // Set to true in production with HTTPS
+      httpOnly: true, // Prevent client-side JS from accessing session cookie
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      path: '/'
+    },
+    name: 'xenithra.session' // Custom session cookie name
   })
 )
 

@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html lang="en">
 
 <head>
@@ -71,6 +71,9 @@
         linear-gradient(#000 0 0) content-box,
         linear-gradient(#000 0 0);
       -webkit-mask-composite: xor;
+      mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
       mask-composite: exclude;
       opacity: 0.8;
       animation: borderFlow 16s linear infinite;
@@ -103,6 +106,106 @@
       background: linear-gradient(165deg, rgba(11, 26, 56, 0.96), rgba(2, 6, 20, 0.96));
       border-right: 1px solid rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(24px);
+      position: relative;
+      transition: width 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      width: 60px;
+    }
+
+    .sidebar-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.3), rgba(255, 0, 200, 0.3));
+      border: 1px solid rgba(0, 229, 255, 0.5);
+      border-radius: 50%;
+      color: #00e5ff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar-toggle:hover {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.5), rgba(255, 0, 200, 0.5));
+      border-color: rgba(0, 229, 255, 0.9);
+      transform: scale(1.1);
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.6);
+    }
+
+    .sidebar-toggle.active {
+      background: linear-gradient(135deg, rgba(255, 0, 200, 0.4), rgba(0, 229, 255, 0.4));
+      border-color: rgba(255, 0, 200, 0.7);
+    }
+
+    .user-section {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .user-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.8), rgba(255, 0, 200, 0.8));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .user-name {
+      font-size: 14px;
+      font-weight: bold;
+      color: #00e5ff;
+    }
+
+    .collapsed-icons {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 20px;
+      align-items: center;
+    }
+
+    .collapsed-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      color: #e5f2ff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .collapsed-icon:hover {
+      background: rgba(0, 229, 255, 0.3);
+      border-color: rgba(0, 229, 255, 0.6);
+      transform: scale(1.1);
+      box-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
     }
 
     .logo {
@@ -507,7 +610,7 @@
       position: relative;
       flex: 1;
       padding: 14px 46px;
-      border-radius: 18px;
+      /* border-radius: 18px; */
       background:
         radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.07), transparent 55%),
         radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.06), transparent 55%),
@@ -670,7 +773,7 @@
     .menu-bar {
       display: flex;
       align-items: center;
-      padding: 6px 12px;
+      padding: 8px 12px;
       background: linear-gradient(90deg, rgba(4, 9, 24, 0.96), rgba(10, 2, 26, 0.96));
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(24px);
@@ -679,11 +782,33 @@
       left: 0;
       right: 0;
       z-index: 1000;
-      height: 32px;
+      height: 40px;
+    }
+
+    .sidenav-toggle-btn {
+      padding: 6px 10px;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      border-radius: 6px;
+      color: #00e5ff;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 12px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidenav-toggle-btn:hover {
+      background: rgba(0, 229, 255, 0.2);
+      border-color: rgba(0, 229, 255, 0.6);
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
+      transform: scale(1.05);
     }
 
     .menu-item {
-      padding: 4px 12px;
+      padding: 6px 12px;
       color: #e8f5ff;
       font-size: 12px;
       cursor: pointer;
@@ -695,12 +820,42 @@
       background: rgba(255, 255, 255, 0.1);
     }
 
+    .workspace-buttons {
+      display: flex;
+      gap: 8px;
+      margin-left: 8px;
+      padding: 0 8px;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      align-items: center;
+    }
+
+    .workspace-buttons button {
+      padding: 4px 10px;
+      background: rgba(124, 92, 255, 0.15);
+      border: 1px solid rgba(124, 92, 255, 0.3);
+      color: #b4a3ff;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .workspace-buttons button:hover {
+      background: rgba(124, 92, 255, 0.25);
+      border-color: rgba(124, 92, 255, 0.6);
+      box-shadow: 0 0 8px rgba(124, 92, 255, 0.3);
+    }
+
     .menu-spacer {
       flex: 1;
     }
 
     .menu-bar .lang-select {
       margin-right: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .menu-bar .btn-run {
@@ -768,27 +923,33 @@
     .menu-panel {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       margin-left: 10px;
+      padding-left: 10px;
+    }
+
+    /* Auth Section Styles */
+    .auth-section {
+      display: flex;
+      gap: 8px;
+      align-items: center;
     }
 
     .menu-bar .btn-login,
     .menu-bar .btn-signup {
-      padding: 4px 12px;
+      padding: 6px 14px;
       border-radius: 6px;
       border: none;
       cursor: pointer;
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: 500;
       color: #fff;
       position: relative;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.24);
-      backdrop-filter: blur(20px);
+      overflow: visible;
       transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        background 0.18s ease;
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.3s ease,
+        background 0.3s ease;
     }
 
     .menu-bar .btn-login::before,
@@ -796,11 +957,17 @@
       content: '';
       position: absolute;
       inset: -2px;
-      background: conic-gradient(from 180deg, #ff00c8, #ffea00, #00e5ff, #ff00c8);
+      background: conic-gradient(from 180deg, #00e676, #00b0ff, #00e676);
       background-size: 200% 200%;
       opacity: 0;
-      transition: opacity 0.18s ease;
+      transition: opacity 0.3s ease;
       z-index: -1;
+      border-radius: 6px;
+      animation: none;
+    }
+
+    .menu-bar .btn-signup::before {
+      background: conic-gradient(from 180deg, #ff6b6b, #ffa726, #ff6b6b);
     }
 
     .menu-bar .btn-login::after,
@@ -821,28 +988,80 @@
 
     .menu-bar .btn-login:hover,
     .menu-bar .btn-signup:hover {
-      transform: translateY(-1px);
+      transform: translateY(-2px) scale(1.05);
       box-shadow:
-        0 0 18px rgba(255, 0, 200, 0.9),
-        0 0 26px rgba(0, 229, 255, 0.9);
+        0 0 20px rgba(255, 0, 200, 0.8),
+        0 0 40px rgba(0, 229, 255, 0.6);
+    }
+
+    .menu-bar .btn-login:active,
+    .menu-bar .btn-signup:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .menu-bar .btn-login {
+      background: linear-gradient(135deg, #00e676 0%, #00b0ff 100%);
+      background-size: 220% 220%;
+      box-shadow: 0 0 20px rgba(0, 230, 118, 0.8), inset 0 0 10px rgba(0, 230, 118, 0.2);
+      animation: loginGlowNew 2.3s ease-in-out infinite alternate;
     }
 
     .menu-bar .btn-signup {
-      background: linear-gradient(120deg, #ff6b6b, #ffa726, #ff6b6b);
+      background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
       background-size: 220% 220%;
-      box-shadow: 0 0 22px rgba(255, 107, 107, 0.9);
-      animation: signupGlow 2.3s ease-in-out infinite alternate;
+      box-shadow: 0 0 20px rgba(255, 107, 107, 0.8), inset 0 0 10px rgba(255, 107, 107, 0.2);
+      animation: signupGlowNew 2.3s ease-in-out infinite alternate;
     }
 
-    @keyframes signupGlow {
+    @keyframes loginGlowNew {
       0% {
         background-position: 0% 50%;
-        box-shadow: 0 0 16px rgba(255, 107, 107, 0.7);
+        box-shadow: 0 0 16px rgba(0, 230, 118, 0.6), inset 0 0 10px rgba(0, 230, 118, 0.1);
       }
       100% {
         background-position: 100% 50%;
-        box-shadow: 0 0 30px rgba(255, 107, 107, 1);
+        box-shadow: 0 0 28px rgba(0, 230, 118, 0.9), inset 0 0 10px rgba(0, 230, 118, 0.3);
       }
+    }
+
+    @keyframes signupGlowNew {
+      0% {
+        background-position: 0% 50%;
+        box-shadow: 0 0 16px rgba(255, 107, 107, 0.6), inset 0 0 10px rgba(255, 107, 107, 0.1);
+      }
+      100% {
+        background-position: 100% 50%;
+        box-shadow: 0 0 28px rgba(255, 107, 107, 0.9), inset 0 0 10px rgba(255, 107, 107, 0.3);
+      }
+    }
+
+    /* User Display Section */
+    .user-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      border-radius: 6px;
+    }
+
+    .user-display .user-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00e5ff, #7c5cff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      border: 2px solid rgba(0, 229, 255, 0.3);
+    }
+
+    .user-display .user-name {
+      color: #00e5ff;
+      font-size: 12px;
+      font-weight: 500;
     }
 
     .account-circle {
@@ -866,8 +1085,8 @@
 
     /* Adjust app position to account for menu bar */
     .app {
-      margin-top: 32px;
-      height: calc(100vh - 32px);
+      margin-top: 40px;
+      height: calc(100vh - 40px);
     }
   </style>
 </head>
@@ -875,21 +1094,34 @@
 <body>
     <!-- Menu Bar -->
     <div class="menu-bar">
+      <!-- Sidenav Toggle Button -->
+      <button class="sidenav-toggle-btn" title="Toggle Sidebar" id="sidebarToggle">☰</button>
+
+      <!-- File Menu -->
       <div class="menu-item" id="fileMenu">File</div>
       <div class="menu-item" id="editMenu">Edit</div>
       <div class="menu-item" id="selectionMenu">Selection</div>
       <div class="menu-item" id="viewMenu">View</div>
       <div class="menu-item" id="helpMenu">Help</div>
+
+      <!-- Workspace Buttons in Menu Bar -->
+      <div class="workspace-buttons">
+        <button data-page="dashboard" title="Dashboard">📊 Dashboard</button>
+        <button data-page="projects" title="Projects">📁 Projects</button>
+        <button data-page="snippets" title="Snippets">📝 Snippets</button>
+        <button data-page="playground" title="Playground">🎮 Playground</button>
+        <button data-page="Classroom" title="Classroom">🏫 Classroom</button>
+      </div>
+
       <div class="menu-spacer"></div>
+
+      <!-- Language Selector and Run Button -->
       <div class="menu-panel">
-        <button class="btn-login">Login</button>
-        <button class="btn-signup">Signup</button>
-        <div class="account-circle">👤</div>
         <div class="lang-select">
           <span>Language:</span>
           <div class="dropdown" id="langDropdown">
             <button class="dropdown-toggle" type="button">
-              <span id="langLabel">C (GCC)</span>
+              <span id="langLabel">Select</span>
               <span class="arrow">▾</span>
             </button>
             <div class="dropdown-menu">
@@ -904,27 +1136,63 @@
             </div>
           </div>
         </div>
+
+        <!-- Auth Section -->
+        <div class="auth-section" id="authSection">
+          <button class="btn-login" id="loginBtn">Login</button>
+          <button class="btn-signup" id="signupBtn">Signup</button>
+        </div>
+
+        <!-- User Display (Hidden by default) -->
+        <div class="user-display" id="userDisplay" style="display: none;">
+          <div class="user-logo">👤</div>
+          <span class="user-name" id="displayUsername">User</span>
+        </div>
+
+        <!-- Account Circle -->
+        <div class="account-circle" id="accountCircle" title="Account">👤</div>
       </div>
     </div>
   <div class="app">
     <div class="border-neon"></div>
     <div class="shell">
       <!-- Sidebar -->
-      <div class="sidebar">
+      <div class="sidebar" id="sidebar">
+        <!-- <button class="sidebar-toggle" id="sidebarToggle" title="Toggle Sidebar">
+          <span class="toggle-icon">✕</span>
+        </button> -->
         <div class="logo">
           <div class="logo-box">⚡</div>
-          Xenithra Technologics
+          <span id="logoText">Xenithra Technologics</span>
         </div>
-        <div class="subtitle">Frosted neon playground for modern C/C++ builds.</div>
-        <div class="pill-label">Workspace</div>
-        <button>Dashboard</button>
-        <button>Projects</button>
-        <button>Snippets</button>
-        <button>Playground</button>
-        <div class="pill-label" style="margin-top: 14px">Account</div>
-        <button>Profile</button>
-        <button>Settings</button>
-        <button>Logout</button>
+
+        <!-- Collapsed sidebar icons -->
+        <div class="collapsed-icons" id="collapsedIcons">
+          <button class="collapsed-icon" data-page="dashboard" title="Dashboard">📊</button>
+          <button class="collapsed-icon" data-page="projects" title="Projects">📁</button>
+          <button class="collapsed-icon" data-page="snippets" title="Snippets">📝</button>
+          <button class="collapsed-icon" data-page="playground" title="Playground">🎮</button>
+        </div>
+
+        <div class="sidebar-content" id="sidebarContent">
+          <div class="subtitle">Frosted neon playground for modern C/C++ builds.</div>
+          <div class="pill-label">Workspace</div>
+          <button>Open Folder</button>
+          <button>Dashboard</button>
+          <button>Projects</button>
+          <button>Snippets</button>
+          <button>Playground</button>
+        </div>
+        <div class="user-section" id="userSection" style="display: none;">
+          <div class="user-info">
+            <div class="user-logo">👤</div>
+            <span class="user-name">John Doe</span>
+          </div>
+          <div class="pill-label" style="margin-top: 14px">Account</div>
+          <button>Profile</button>
+          <button>Settings</button>
+          <button>Logout</button>
+        </div>
       </div>
 
       <!-- Main -->
@@ -1063,10 +1331,57 @@
       })
     })
 
-    // Sidebar navigation functionality - disabled for React routing
-    // Routes are handled by the React component Beta_Index.jsx
+    // Sidebar toggle functionality
+    const sidebar = document.getElementById('sidebar')
+    const sidebarToggle = document.getElementById('sidebarToggle')
+    const sidenavToggleMenuBtn = document.getElementById('sidenavToggleMenuBtn')
+    const sidebarContent = document.getElementById('sidebarContent')
+    const logoText = document.getElementById('logoText')
+    const userSection = document.getElementById('userSection')
+    const collapsedIcons = document.getElementById('collapsedIcons')
+    const toggleIcon = document.querySelector('.toggle-icon')
+    let isSidebarOpen = true
 
-    // Custom language dropdown with animation [web:75][web:78][web:86]
+    function toggleSidebar() {
+      isSidebarOpen = !isSidebarOpen
+      if (isSidebarOpen) {
+        sidebar.classList.remove('collapsed')
+        if (toggleIcon) toggleIcon.textContent = '✕'
+        sidebarToggle.title = 'Collapse Sidebar'
+        sidebarToggle.classList.remove('active')
+        setTimeout(() => {
+          sidebarContent.style.display = 'block'
+          logoText.style.display = 'inline'
+          collapsedIcons.style.display = 'none'
+          if (isLoggedIn) {
+            userSection.style.display = 'block'
+          }
+        }, 150)
+      } else {
+        sidebar.classList.add('collapsed')
+        if (toggleIcon) toggleIcon.textContent = '☰'
+        sidebarToggle.title = 'Expand Sidebar'
+        sidebarToggle.classList.add('active')
+        sidebarContent.style.display = 'none'
+        logoText.style.display = 'none'
+        userSection.style.display = 'none'
+        collapsedIcons.style.display = 'flex'
+      }
+    }
+
+    sidebarToggle.addEventListener('click', toggleSidebar)
+    sidenavToggleMenuBtn.addEventListener('click', toggleSidebar)
+
+    // Workspace buttons in menu bar
+    const workspaceButtons = document.querySelectorAll('.workspace-buttons button')
+    workspaceButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = btn.dataset.page
+        alert(`Navigate to ${page} page`)
+      })
+    })
+
+    // Custom language dropdown with animation
     const langDropdown = document.getElementById('langDropdown')
     const langToggle = langDropdown.querySelector('.dropdown-toggle')
     const langLabel = document.getElementById('langLabel')
@@ -1081,7 +1396,6 @@
         const lang = btn.dataset.lang
         langLabel.textContent = btn.textContent
         langDropdown.classList.remove('open')
-        // Tab label removed, no need to update filename
       })
     })
 
@@ -1090,6 +1404,119 @@
         langDropdown.classList.remove('open')
       }
     })
+    const collapsedIconBtns = document.querySelectorAll('.collapsed-icon')
+    collapsedIconBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = btn.dataset.page
+        alert(`Navigate to ${page} page`)
+      })
+    })
+
+    // Login/Logout state management
+    const authSection = document.getElementById('authSection')
+    const userDisplay = document.getElementById('userDisplay')
+    const displayUsername = document.getElementById('displayUsername')
+    const accountCircle = document.getElementById('accountCircle')
+    const loginBtn = document.getElementById('loginBtn')
+    const signupBtn = document.getElementById('signupBtn')
+    let isLoggedIn = false // Start with logged out state
+
+    function checkAuthStatus() {
+      // Check localStorage for user session
+      const userData = localStorage.getItem('user')
+      if (userData) {
+        try {
+          const user = JSON.parse(userData)
+          updateAuthState(true, user.username)
+          return
+        } catch (e) {
+          localStorage.removeItem('user')
+        }
+      }
+
+      // Check server session via API
+      fetch('/api/check-auth', {
+        method: 'GET',
+        credentials: 'include' // Send cookies with request
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.authenticated && data.user) {
+            // Store user data in localStorage for quick access
+            localStorage.setItem(
+              'user',
+              JSON.stringify({
+                id: data.user.id,
+                username: data.user.username,
+                token: data.user.token
+              })
+            )
+            updateAuthState(true, data.user.username)
+          } else {
+            updateAuthState(false)
+          }
+        })
+        .catch(err => {
+          console.error('Auth check error:', err)
+          updateAuthState(false)
+        })
+    }
+
+    function updateAuthState(loggedIn, username = null) {
+      isLoggedIn = loggedIn
+      if (loggedIn && username) {
+        authSection.style.display = 'none'
+        userDisplay.style.display = 'flex'
+        displayUsername.textContent = username
+        userSection.style.display = isSidebarOpen ? 'block' : 'none'
+      } else {
+        authSection.style.display = 'flex'
+        userDisplay.style.display = 'none'
+        userSection.style.display = 'none'
+      }
+    }
+
+    // Login button functionality
+    loginBtn.addEventListener('click', () => {
+      window.location.href = '/Account/login'
+    })
+
+    // Signup button functionality
+    signupBtn.addEventListener('click', () => {
+      window.location.href = '/Account/Signup'
+    })
+
+    // Account circle click (for logged in users)
+    accountCircle.addEventListener('click', () => {
+      if (isLoggedIn) {
+        // Toggle sidebar if collapsed
+        if (!isSidebarOpen) {
+          toggleSidebar()
+        }
+        alert('Profile/Account menu: Check sidebar account section')
+      } else {
+        window.location.href = '/Account/login'
+      }
+    })
+
+    // Logout functionality (from sidebar)
+    const userSectionElement = document.getElementById('userSection')
+    if (userSectionElement) {
+      const logoutBtn = userSectionElement.querySelector('button:last-child') // Logout button
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+          if (confirm('Are you sure you want to logout?')) {
+            localStorage.removeItem('user')
+            updateAuthState(false)
+            alert('Logged out successfully!')
+            window.location.href = '/'
+          }
+        })
+      }
+    }
+
+    // Initialize auth state on page load
+    checkAuthStatus()
 
     // Terminal + API demo using fetch [web:76][web:81][web:84]
     const runBtn = document.getElementById('runBtn')

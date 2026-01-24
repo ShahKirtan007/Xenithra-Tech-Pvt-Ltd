@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import '../css/login/util.css'
 import '../css/login/main.css'
 import '../css/glassy-login.css'
 
 const Signup = () => {
+  const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -38,12 +40,12 @@ const Signup = () => {
               token: data.data.accessToken
             })
           )
-          window.location.href = '/index.html'
+          navigate('/')
           return
         }
 
         alert(data.message || 'Signup initiated. Please check your email for OTP.')
-        window.location.href = '/Account/SignupOTP?email=' + encodeURIComponent(email)
+        navigate('/otp?email=' + encodeURIComponent(email))
       } else {
         setErrorMessage(data.message || data.error || 'Signup failed.')
       }

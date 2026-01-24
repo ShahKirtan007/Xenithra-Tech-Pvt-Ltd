@@ -21,9 +21,12 @@ export default defineConfig({
       }
     },
     plugins: [],
-    assetsInclude: ['**/*.html'],
-    rollupOptions: {
-      input: './src/renderer/index.html'
+    build: {
+      rollupOptions: {
+        input: {
+          main: './src/renderer/index.html'
+        }
+      }
     }
   }
 })
